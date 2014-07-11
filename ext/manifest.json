@@ -1,0 +1,30 @@
+{
+  "name": "Outline for github code viewer",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Chrome ext to build outline of the current file on gitub.com",
+  "homepage_url": "https://github.com/SeoulTech/github-code-outliner",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "default_locale": "en",
+  "background": {
+    "scripts": ["src/bg/background.js"],
+    "persistent": false
+  },
+  "permissions": ["https://github.com/"],
+  "content_scripts": [
+    {
+      "matches": ["*://github.com/*"],
+      "css": ["src/inject/inject.css"], 
+      "include_globs": ["*github.com/*/blob/*"]
+    },
+    {
+      "matches": ["*://github.com/*"],
+      "js": ["src/inject/inject.js"],
+      "include_globs": ["*github.com/*/blob/*"]
+    }
+  ]
+}
