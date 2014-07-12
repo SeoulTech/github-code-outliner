@@ -1,14 +1,23 @@
+'use strict'
 
-chrome.extension.sendMessage({hello:true}, function(response) {
-	var readyStateCheckInterval = setInterval(function() {
-	if (document.readyState === "complete") {
-		clearInterval(readyStateCheckInterval);
+// parse dom and talk to background.js
 
-		// ----------------------------------------------------------
-		// This part of the script triggers when page is done loading
-		console.log("This message was sent from scripts/inject.js");
-		// ----------------------------------------------------------
-		console.log("Got a responce: " + JSON.stringify(response, null, 4));
-	}
-	}, 10);
-});
+var code = [].map.call(document.querySelectorAll('.line'), function(line) {
+  return line.innerText
+})
+
+chrome.runtime.sendMessage({code: code}, function(response) {
+  console.log(response)
+})
+
+// looking glass
+
+var container = document.querySelector('.site > .container')
+container.style.marginRight = 0
+
+var overlay = document.createElement('p')
+overlay.innerText = code.join('\n')
+overlay.style.position = 'absolute'
+overlay.style.left = '40px'
+overlay.style.top = '300px'
+document.body.appendChild(overlay)
